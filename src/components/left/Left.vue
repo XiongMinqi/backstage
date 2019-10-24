@@ -1,20 +1,21 @@
 <template>
   <div>
-    <div><Top /></div>
-    <div><Left /></div>
-    <div><router-view></router-view></div>
+    <div>首页</div>
+    <div>分页表格</div>
+    <div>标签页</div>
+    <div>图片上传</div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
 </template>
 
 <script>
-import Top from "../components/top/Top";
-import Left from "../components/left/Left";
 export default {
-  name: "Home",
-  components: {
-    Top,
-    Left
-  },
+  name: "Left",
+  components: {},
   props: {},
   data() {
     return {};

@@ -1,20 +1,13 @@
 <template>
   <div>
-    <div><Top /></div>
-    <div><Left /></div>
-    <div><router-view></router-view></div>
+    Index
   </div>
 </template>
 
 <script>
-import Top from "../components/top/Top";
-import Left from "../components/left/Left";
 export default {
-  name: "Home",
-  components: {
-    Top,
-    Left
-  },
+  name: "Index",
+  components: {},
   props: {},
   data() {
     return {};
