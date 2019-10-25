@@ -87,7 +87,9 @@
 
     - 雷达图: /radarChat (get请求)
 
-    - 柱状图: /homeData (get请求)
+    - todolist: /todoList (get请求)
+
+    - 柱状图: /homeChat (get请求)
 
     - 订单: /orderData (get请求)
 

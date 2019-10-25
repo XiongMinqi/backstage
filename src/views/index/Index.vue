@@ -1,13 +1,25 @@
 <template>
-  <div>
-    Index
+  <div class="right">
+    <div><First /></div>
+    <div><Second /></div>
+    <div><Third /></div>
+    <div><Forth /></div>
   </div>
 </template>
 
 <script>
+import First from "../../components/index-first/First";
+import Second from "../../components/index-second/Second";
+import Third from "../../components/index-third/Third";
+import Forth from "../../components/index-forth/Forth";
 export default {
   name: "Index",
-  components: {},
+  components: {
+    First,
+    Second,
+    Third,
+    Forth
+  },
   props: {},
   data() {
     return {};
@@ -22,4 +34,8 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.right {
+  width: 100%;
+}
+</style>

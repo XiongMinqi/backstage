@@ -1,8 +1,10 @@
 <template>
   <div>
-    <div><Top /></div>
-    <div><Left /></div>
-    <div><router-view></router-view></div>
+    <div class="top"><Top /></div>
+    <div class="center">
+      <div class="left"><Left /></div>
+      <div class="right"><router-view></router-view></div>
+    </div>
   </div>
 </template>
 
@@ -29,4 +31,27 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.center {
+  position: relative;
+  top: 55px;
+  display: flex;
+}
+.left {
+  width: 13%;
+  position: fixed;
+  z-index: 9;
+  height: 100%;
+}
+.right {
+  position: absolute;
+  right: 0;
+  width: 87%;
+  background: #f0f2f5;
+}
+.top {
+  position: fixed;
+  width: 100%;
+  z-index: 9;
+}
+</style>

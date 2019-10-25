@@ -10,6 +10,7 @@ const routes = [
     path: "/",
     redirect: "/home"
   },
+
   {
     path: "/home",
     component: Home,
@@ -39,7 +40,7 @@ const routes = [
       {
         path: "",
         name: "label",
-        component: import("../views/label/Label.vue")
+        component: () => import("../views/label/Label.vue")
       }
     ]
   },
