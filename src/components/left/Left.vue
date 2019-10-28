@@ -31,18 +31,19 @@
           <span slot="title">图片上传</span>
         </el-menu-item>
       </div>
-      <div @click="jump5">
-        <el-menu-item index="5">
-          <i class="el-icon-message"></i>
-          <span slot="title">已发表</span>
-        </el-menu-item>
-      </div>
       <div @click="jump6">
         <el-menu-item index="6">
           <i class="el-icon-edit"></i>
           <span slot="title">发布文章</span>
         </el-menu-item>
       </div>
+      <div @click="jump5">
+        <el-menu-item index="5">
+          <i class="el-icon-message"></i>
+          <span slot="title">已发表</span>
+        </el-menu-item>
+      </div>
+
       <div @click="jump7">
         <el-menu-item index="7">
           <i class="el-icon-s-data"></i>
@@ -71,8 +72,7 @@ export default {
   components: {},
   props: {},
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     jump1() {

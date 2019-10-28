@@ -10,7 +10,11 @@ const routes = [
     path: "/",
     redirect: "/home"
   },
-
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../components/login/Login")
+  },
   {
     path: "/home",
     component: Home,
@@ -111,6 +115,40 @@ const routes = [
       }
     ]
   }
+
+  // {
+  //   path: "/unread",
+  //   component: Home,
+  //   children: [
+  //     {
+  //       path: "",
+  //       name: "unread",
+  //       component: () => import("../views/unread/Unread.vue")
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: "/read",
+  //   component: Home,
+  //   children: [
+  //     {
+  //       path: "",
+  //       name: "read",
+  //       component: () => import("../views/read/Read.vue")
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: "/recycle",
+  //   component: Home,
+  //   children: [
+  //     {
+  //       path: "",
+  //       name: "recycle",
+  //       component: () => import("../views/recycle/Recycle.vue")
+  //     }
+  //   ]
+  // }
 ];
 
 const router = new VueRouter({

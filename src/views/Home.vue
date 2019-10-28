@@ -47,6 +47,7 @@ export default {
   position: absolute;
   right: 0;
   width: 87%;
+  /*height: 100%;*/
   background: #f0f2f5;
 }
 .top {

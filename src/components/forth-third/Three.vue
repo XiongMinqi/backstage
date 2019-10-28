@@ -1,10 +1,20 @@
 <template>
-  <div>
-    <el-progress :percentage=this.list.progress></el-progress>
-    <el-progress :percentage="100" :format="format"></el-progress>
-    <el-progress :percentage="100" status="success"></el-progress>
-    <el-progress :percentage="100" status="warning"></el-progress>
-    <el-progress :percentage="50" status="exception"></el-progress>
+  <div class="right">
+    <div><img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png" alt="" /></div>
+    <div class="jindu" v-for="(item, index) in list" :key="index">
+      <div>{{ item.name }}</div>
+      <div>
+        <div v-if="item.progress < 1">
+          <el-progress :percentage="item.progress * 100"></el-progress>
+        </div>
+        <div v-else-if="(item.progress = 1)">
+          <el-progress
+            :percentage="item.progress * 100"
+            color="green"
+          ></el-progress>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -15,13 +25,10 @@ export default {
   props: {},
   data() {
     return {
-      list:[]
+      list: []
     };
   },
   methods: {
-    format(percentage) {
-      return percentage === 100 ? "满" : `${percentage}%`;
-    },
     getlist() {
       this.$axios
         .req("api/progress")
@@ -32,10 +39,10 @@ export default {
         .catch(arr => {
           console.log(arr);
         });
-    },
-    mounted() {
-      this.getlist();
     }
+  },
+  mounted() {
+    this.getlist();
   },
   created() {},
   filters: {},
@@ -45,4 +52,19 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.right {
+  img {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  padding: 20px;
+}
+  .jindu{
+    /*margin-top: 30px;*/
+    div{
+      margin-bottom: 5px;
+    }
+    /*line-height: 20px;*/
+  }
+</style>

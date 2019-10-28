@@ -1,7 +1,13 @@
 <template>
   <div class="top">
-    <div class="start">欢迎***来到<span>星月</span>后台管理系统</div>
-    <div class="last">早上好，亲爱的*** 上次登录时间：2019年1月1日</div>
+    <div class="start">
+      欢迎 <span class="user">{{ user }}</span
+      >来到<span>星月</span>后台管理系统
+    </div>
+    <div class="last">
+      早上好，亲爱的<span class="user">{{ user }}</span
+      >上次登录时间：2019年1月1日
+    </div>
   </div>
 </template>
 
@@ -17,7 +23,11 @@ export default {
   mounted() {},
   created() {},
   filters: {},
-  computed: {},
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
+  },
   watch: {},
   directives: {}
 };
@@ -42,5 +52,9 @@ export default {
 span {
   font-weight: bold;
   padding: 0 5px;
+}
+.user {
+  padding: 0 5px;
+  color: #11ffb4;
 }
 </style>
