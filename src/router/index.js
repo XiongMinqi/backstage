@@ -114,8 +114,18 @@ const routes = [
         component: () => import("../views/logOut/LogOut.vue")
       }
     ]
-  }
-
+  },
+  {
+    path: "/articles",
+    component: Home,
+    children: [
+      {
+        path: "",
+        name: "articles",
+        component: () => import("../components/articles/Articles.vue")
+      }
+    ]
+  },
   // {
   //   path: "/unread",
   //   component: Home,

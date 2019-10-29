@@ -8,13 +8,16 @@ import http from "./http";
 import dayjs from "dayjs";
 import axios from "axios";
 import VCharts from "v-charts";
+import mavonEditor from "mavon-editor";
+import "mavon-editor/dist/css/index.css";
+// use
 
 Vue.prototype.$axios = http;
-Vue.use(VCharts);
 Vue.prototype.$dayjs = dayjs;
-
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.use(mavonEditor);
+Vue.use(VCharts);
 
 // 响应拦截
 axios.defaults.timeout = 10000; // 设置超时时间

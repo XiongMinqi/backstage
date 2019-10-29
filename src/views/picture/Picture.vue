@@ -1,67 +1,56 @@
 <template>
-  <div>
-    <div class="back">
-      <div>
-        <div class="word">支持拖拽</div>
-        <el-upload
-          class="upload-demo"
-          drag
-          action="https://jsonplaceholder.typicode.com/posts/"
-          multiple
-        >
-          <i class="el-icon-upload"></i>
-          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-          <div class="el-upload__tip" slot="tip">
-            只能上传jpg/png文件，且不超过500kb
-          </div>
-        </el-upload>
-      </div>
-      <div class="dianji">
-        <div class="word">支持裁剪</div>
-        <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList"
-        >
-          <el-button size="small" type="primary">点击上传</el-button>
-        </el-upload>
-      </div>
+  <div id="body">
+    <div class="tpsc">
+      <div class="tz">支持拖拽</div>
+      <el-upload class="upload-demo" drag action="api/upload" multiple>
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip" slot="tip">
+          只能上传jpg/png文件，且不超过500kb
+        </div>
+      </el-upload>
+      <div class="cj">支持裁剪</div>
+      <el-button type="primary" @click="toggleShow">上传图片</el-button>
+      <my-upload
+        field="file"
+        :width="300"
+        :height="300"
+        url="api/upload"
+        :params="params"
+        :headers="headers"
+        v-model="show"
+        :value.sync="show"
+        img-format="png"
+      ></my-upload>
+      <img :src="imgDataUrl" />
     </div>
   </div>
 </template>
 
 <script>
+import myUpload from "vue-image-crop-upload";
 export default {
-  name: "Picture",
-  components: {},
+  name: "photo",
+  components: {
+    myUpload
+  },
   props: {},
   data() {
     return {
-      fileList: []
+      show: false,
+      params: {
+        token: "123456798",
+        name: "avatar"
+      },
+      imgDataUrl: "",
+      headers: {
+        smail: "*_~"
+      }
     };
   },
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-      );
-    },
-    beforeRemove(file) {
-      return this.$confirm(`确定移除 ${file.name}？`);
+    toggleShow() {
+      this.show = !this.show;
     }
   },
   mounted() {},
@@ -74,18 +63,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.back {
-  margin: 20px;
-  margin-bottom: 260px;
-  height: 500px;
-  background: white;
-  padding: 30px;
-}
-.word {
-  font-size: 36px;
-  margin-bottom: 30px;
-}
-.dianji{
-  margin-top: 80px;
+#body {
+  background-color: white;
+  .tpsc {
+    padding: 20px;
+    .cj {
+      margin-top: 30px;
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+    .tz {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+  }
 }
 </style>

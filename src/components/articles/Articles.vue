@@ -3,11 +3,11 @@
     <div class="top">
       <el-row>
         <el-col :span="24"
-          ><div class="grid-content" style="background:#59a586 ">
-            <el-button class="btn" type="warning" @click="jump1"
-              >查看</el-button
+          ><div class="grid-content">
+            <el-button class="btn1" type="danger" @click="jump1"
+              >返回</el-button
             >
-            <el-button class="btn" type="primary" @click="jump2"
+            <el-button class="btn2" type="primary" @click="jump2"
               >发布</el-button
             >
           </div></el-col
@@ -23,22 +23,22 @@
         class="demo-ruleForm"
       >
         <el-form-item label="文章标题" prop="title">
-          <el-input v-model="ruleForm.title"></el-input>
+          <el-input v-model="list.title"></el-input>
         </el-form-item>
 
         <el-form-item label="文章摘要" prop="abstract">
-          <el-input v-model="ruleForm.abstract"></el-input>
+          <el-input v-model="list.abstract"></el-input>
         </el-form-item>
 
         <div class="xinxi">
           <div class="shuru">
             <el-form-item label="作者" prop="author">
-              <el-input v-model="ruleForm.author"></el-input>
+              <el-input v-model="list.author"></el-input>
             </el-form-item>
           </div>
           <div class="shuru">
             <el-form-item label="类目" prop="category">
-              <el-select v-model="ruleForm.category" placeholder="请选择">
+              <el-select v-model="list.category" placeholder="请选择">
                 <el-option label="Vue" value="Vue"></el-option>
                 <el-option label="React" value="React"></el-option>
                 <el-option label="Node.js" value="Node.js"></el-option>
@@ -49,7 +49,7 @@
           </div>
           <div class="shuru">
             <el-form-item label="来源" prop="source">
-              <el-select v-model="ruleForm.source" placeholder="请选择">
+              <el-select v-model="list.source" placeholder="请选择">
                 <el-option label="原创" value="原创"></el-option>
                 <el-option label="转载" value="转载"></el-option>
                 <el-option label="分享" value="分享"></el-option>
@@ -58,7 +58,7 @@
           </div>
           <div class="shuru">
             <el-form-item label="重要性" prop="star">
-              <el-select v-model="ruleForm.star" placeholder="请选择">
+              <el-select v-model="list.star" placeholder="请选择">
                 <el-option label="1星" value="1"></el-option>
                 <el-option label="2星" value="2"></el-option>
                 <el-option label="3星" value="3"></el-option>
@@ -70,11 +70,11 @@
           <div class="shuru">
             <el-form-item label="发布时间:">
               <el-date-picker
-                      v-model="ruleForm.date"
-                      type="datetime"
-                      placeholder="选择日期时间"
-                      align="right"
-                      :picker-options="pickerOptions"
+                v-model="list.date"
+                type="datetime"
+                placeholder="选择日期时间"
+                align="right"
+                :picker-options="pickerOptions"
               >
               </el-date-picker>
             </el-form-item>
@@ -84,7 +84,7 @@
     </div>
 
     <div class="main">
-      <mavon-editor v-model="ruleForm.text" />
+      <mavon-editor v-model="list.text" />
     </div>
     <div class="btm">
       <el-button type="primary" @click="jump2">发布</el-button>
@@ -94,11 +94,12 @@
 
 <script>
 export default {
-  name: "PublishedArticles",
+  name: "Articles",
   components: {},
   props: {},
   data() {
     return {
+      list: [],
       input5: "",
       pickerOptions: {
         shortcuts: [
@@ -136,50 +137,53 @@ export default {
         text: "",
         date: ""
       },
+      id: "",
       rules: {
-        title: [{ required: true, trigger: "blur" }],
-        abstract: [{ required: true, trigger: "blur" }],
-        author: [{ required: true, trigger: "blur" }],
-        category: [{ required: true, message: "请选择", trigger: "change" }],
-        source: [{ required: true, message: "请选择", trigger: "change" }],
-        star: [{ required: true, message: "请选择", trigger: "change" }]
       }
     };
   },
   methods: {
     jump1() {
-      this.$router.push("/");
+      this.$router.push("/published");
     },
     jump2() {
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          this.$axios
-            .req("api/article/create", {
-              title: this.ruleForm.title,
-              abstract: this.ruleForm.abstract,
-              author: this.ruleForm.author,
-              category: this.ruleForm.category,
-              source: this.ruleForm.source,
-              star: this.ruleForm.star,
-              text: this.ruleForm.text,
-              date: this.ruleForm.date
-            })
-            .then(res => {
-              if (res.code === 200) {
-                this.$message({
-                  showClose: true,
-                  message: "数据传送成功",
-                  type: "success"
-                });
-              }
-            });
-        }
-      });
-
-      this.$router.push("/published");
+      this.$axios
+        .req("/api/article/update", {
+          id: this.id,
+          title: this.list.title,
+          abstract: this.list.abstract,
+          author: this.list.author,
+          category: this.list.category,
+          source: this.list.source,
+          star: this.list.star,
+          text: this.list.text,
+          date: Date.now()
+        })
+        .then(res => {
+          this.ruleForm = res.data;
+          this.$router.push("/published");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getlist() {
+      this.$axios
+        .req("/api/article/article", { _id: this.id })
+        .then(res => {
+          this.list = res.data;
+          console.log(res);
+        })
+        .catch(arr => {
+          console.log(arr);
+        });
     }
   },
-  mounted() {},
+  mounted() {
+    this.id = this.$route.query.id;
+    this.getlist();
+    console.log(this.id);
+  },
   created() {},
   filters: {},
   computed: {},
@@ -232,10 +236,15 @@ export default {
     margin-bottom: 15px;
   }
 }
-.btn {
+.btn1 {
   margin: 5px 5px;
   position: relative;
-  left: 88%;
+  left: 20%;
+}
+.btn2 {
+  margin: 5px 5px;
+  position: relative;
+  left: 60%;
 }
 .el-row {
   margin-bottom: 20px;

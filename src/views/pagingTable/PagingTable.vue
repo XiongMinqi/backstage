@@ -11,7 +11,7 @@
         :data="arr.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
         style="width: 100%"
       >
-        <el-table-column label="名称" width="480" align="center">
+        <el-table-column label="名称" width="450" align="center">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.NAME }}</span>
           </template>

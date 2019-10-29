@@ -5,7 +5,13 @@
       >来到<span>星月</span>后台管理系统
     </div>
     <div class="last">
-      早上好，亲爱的<span class="user">{{ user }}</span
+      <span v-if="num === 1">早上好</span>
+      <span v-else-if="num === 2">中午好</span>
+      <span v-else-if="num === 3">下午好</span>
+      <span v-else-if="num === 4">晚上好</span>
+      <span v-else-if="num === 5">你该睡觉了</span>，亲爱的<span class="user">{{
+        user
+      }}</span
       >上次登录时间：2019年1月1日
     </div>
   </div>
@@ -17,10 +23,31 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      hour: 0,
+      num: 0
+    };
   },
-  methods: {},
-  mounted() {},
+  methods: {
+    time() {
+      let now = new Date();
+      let hour = now.getHours();
+      if (hour < 12 || hour === 12) {
+        this.num = 1;
+      } else if (hour < 14 || hour === 14) {
+        this.num = 2;
+      } else if (hour < 18 || hour === 18) {
+        this.num = 3;
+      } else if (hour < 22 || hour === 22) {
+        this.num = 4;
+      } else if (hour < 24 || hour === 24) {
+        this.num = 5;
+      }
+    }
+  },
+  mounted() {
+    this.time();
+  },
   created() {},
   filters: {},
   computed: {

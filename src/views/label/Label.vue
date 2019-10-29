@@ -15,92 +15,103 @@
     </div>
     <div class="form">
       <div v-if="num === 1">
-        <div class="xinxi">
-          <div class="msg" v-for="(item, index) in unreadlist" :key="index">
+        <div v-if="unreadlist.length > 0">
+          <div class="xinxi">
+            <div class="msg" v-for="(item, index) in unreadlist" :key="index">
+              <div>
+                <el-row>
+                  <el-col :span="24"
+                    >{{ item.msg }}
+                    <div class="grid-content bg-white"></div
+                  ></el-col>
+                </el-row>
+              </div>
+
+              <div>
+                {{ item.time }}
+                <el-button @click="read(item, index)">标为已读</el-button>
+              </div>
+            </div>
+
             <div>
               <el-row>
-                <el-col :span="24"
-                  >{{ item.msg }}
-                  <div class="grid-content bg-white"></div
-                ></el-col>
+                <el-col :span="24">
+                  <el-button type="primary" @click="allread"
+                    >全部标为已读</el-button
+                  >
+                  <div class="grid-content bg-white"></div>
+                </el-col>
               </el-row>
             </div>
-
-            <div>
-              {{ item.time }}
-              <el-button @click="read(item, index)">标为已读</el-button>
-            </div>
-          </div>
-
-          <div>
-            <el-row>
-              <el-col :span="24">
-                <el-button type="primary" @click="allread"
-                  >全部标为已读</el-button
-                >
-                <div class="grid-content bg-white"></div>
-              </el-col>
-            </el-row>
           </div>
         </div>
+        <div v-else class="liuyan">当前暂无未读消息</div>
       </div>
       <div v-if="num === 2">
-        <div class="xinxi">
-          <div class="msg" v-for="(item, index) in readlist" :key="index">
+        <div v-if="readlist.length > 0">
+          <div class="xinxi">
+            <div class="msg" v-for="(item, index) in readlist" :key="index">
+              <div>
+                <el-row>
+                  <el-col :span="24"
+                    >{{ item.msg }}
+                    <div class="grid-content bg-white"></div
+                  ></el-col>
+                </el-row>
+              </div>
+
+              <div>
+                {{ item.time }}
+                <el-button @click="deleteone(item, index)">删除</el-button>
+              </div>
+            </div>
+
             <div>
               <el-row>
-                <el-col :span="24"
-                  >{{ item.msg }}
-                  <div class="grid-content bg-white"></div
-                ></el-col>
+                <el-col :span="24">
+                  <el-button type="danger" @click="alldelete"
+                    >删除全部</el-button
+                  >
+                  <div class="grid-content bg-white"></div>
+                </el-col>
               </el-row>
             </div>
-
-            <div>
-              {{ item.time }}
-              <el-button @click="deleteone(item, index)">删除</el-button>
-            </div>
-          </div>
-
-          <div>
-            <el-row>
-              <el-col :span="24">
-                <el-button type="danger" @click="alldelete">删除全部</el-button>
-                <div class="grid-content bg-white"></div>
-              </el-col>
-            </el-row>
           </div>
         </div>
+        <div v-else class="liuyan">当前已读消息被清空</div>
       </div>
       <div v-if="num === 3">
-        <div class="xinxi">
-          <div class="msg" v-for="(item, index) in recyclelist" :key="index">
+        <div v-if="recyclelist.length > 0">
+          <div class="xinxi">
+            <div class="msg" v-for="(item, index) in recyclelist" :key="index">
+              <div>
+                <el-row>
+                  <el-col :span="24"
+                    >{{ item.msg }}
+                    <div class="grid-content bg-white"></div
+                  ></el-col>
+                </el-row>
+              </div>
+
+              <div>
+                {{ item.time }}
+                <el-button type="warning" @click="back(item, index)"
+                  >还原</el-button
+                >
+              </div>
+            </div>
+
             <div>
               <el-row>
-                <el-col :span="24"
-                  >{{ item.msg }}
-                  <div class="grid-content bg-white"></div
-                ></el-col>
+                <el-col :span="24">
+                  <el-button type="info" @click="backall">清空回收站</el-button>
+                  <div class="grid-content bg-white"></div>
+                </el-col>
               </el-row>
             </div>
-
-            <div>
-              {{ item.time }}
-              <el-button type="warning" @click="back(item, index)"
-                >还原</el-button
-              >
-            </div>
-          </div>
-
-          <div>
-            <el-row>
-              <el-col :span="24">
-                <el-button type="info" @click="backall">清空回收站</el-button>
-                <div class="grid-content bg-white"></div>
-              </el-col>
-            </el-row>
           </div>
         </div>
+        <div v-else class="liuyan">所有消息已清空</div>
       </div>
     </div>
   </div>
@@ -182,6 +193,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.liuyan {
+  text-align: center;
+}
 .title {
   height: 58px;
 }
