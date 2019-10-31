@@ -10,8 +10,10 @@ import axios from "axios";
 import VCharts from "v-charts";
 import mavonEditor from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
-// use
+import JsonExcel from "vue-json-excel";
 
+// use
+Vue.component("downloadExcel", JsonExcel);
 Vue.prototype.$axios = http;
 Vue.prototype.$dayjs = dayjs;
 Vue.config.productionTip = false;

@@ -2,7 +2,7 @@
   <div class="four">
     <div class="first"><One /></div>
     <div class="second">
-<!--      <Two />-->
+      <Two />
     </div>
     <div class="third"><Three /></div>
   </div>
@@ -10,13 +10,13 @@
 
 <script>
 import One from "../forth-first/One";
-// import Two from "../forth-second/Two";
+import Two from "../forth-second/Two";
 import Three from "../forth-third/Three";
 export default {
   name: "Forth",
   components: {
     One,
-    // Two,
+    Two,
     Three
   },
   props: {},

@@ -138,8 +138,7 @@ export default {
         date: ""
       },
       id: "",
-      rules: {
-      }
+      rules: {}
     };
   },
   methods: {
@@ -157,7 +156,7 @@ export default {
           source: this.list.source,
           star: this.list.star,
           text: this.list.text,
-          date: Date.now()
+          date: this.list.date
         })
         .then(res => {
           this.ruleForm = res.data;

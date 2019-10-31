@@ -1,7 +1,7 @@
 <template>
   <div class="top">
     <div class="start">
-      欢迎 <span class="user">{{ user }}</span
+      欢迎 <span class="user">{{ name }}</span
       >来到<span>星月</span>后台管理系统
     </div>
     <div class="last">
@@ -10,9 +10,9 @@
       <span v-else-if="num === 3">下午好</span>
       <span v-else-if="num === 4">晚上好</span>
       <span v-else-if="num === 5">你该睡觉了</span>，亲爱的<span class="user">{{
-        user
+        name
       }}</span
-      >上次登录时间：2019年1月1日
+      >上次登录时间：{{ shijian }}
     </div>
   </div>
 </template>
@@ -24,6 +24,8 @@ export default {
   props: {},
   data() {
     return {
+      name:"",
+      shijian: "",
       hour: 0,
       num: 0
     };
@@ -47,13 +49,16 @@ export default {
   },
   mounted() {
     this.time();
+    let user = JSON.parse(window.localStorage.getItem("user"));
+    this.name = user.name;
+    this.shijian = user.time;
   },
   created() {},
   filters: {},
   computed: {
     user() {
       return this.$store.state.user;
-    }
+    },
   },
   watch: {},
   directives: {}

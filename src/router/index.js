@@ -126,45 +126,39 @@ const routes = [
       }
     ]
   },
-  // {
-  //   path: "/unread",
-  //   component: Home,
-  //   children: [
-  //     {
-  //       path: "",
-  //       name: "unread",
-  //       component: () => import("../views/unread/Unread.vue")
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: "/read",
-  //   component: Home,
-  //   children: [
-  //     {
-  //       path: "",
-  //       name: "read",
-  //       component: () => import("../views/read/Read.vue")
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: "/recycle",
-  //   component: Home,
-  //   children: [
-  //     {
-  //       path: "",
-  //       name: "recycle",
-  //       component: () => import("../views/recycle/Recycle.vue")
-  //     }
-  //   ]
-  // }
+  {
+    path: "/check",
+    component: Home,
+    children: [
+      {
+        path: "",
+        name: "check",
+        component: () => import("../components/check/Check.vue")
+      }
+    ]
+  },
+  {
+    path: "/registered",
+    name: "registered",
+    component: () => import("../components/registered/Registered.vue")
+  }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+//路由守卫
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  let user = localStorage.getItem("user");
+  if (to.path === "/login" || to.path === "/registered") {
+    next();
+  } else {
+    user ? next() : next("/login");
+  }
 });
 
 export default router;

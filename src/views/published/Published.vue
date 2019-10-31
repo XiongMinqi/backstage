@@ -1,8 +1,14 @@
 <template>
   <div class="back">
-    <div v-if="list.length > 0 && num === 1">
+    <div v-if="list.length > 0">
       <div class="publish">
-        <el-table :data="list" border style="width: 100%">
+        <el-table
+          :data="
+            arr.slice((currentPage - 1) * pagesize, currentPage * pagesize)
+          "
+          border
+          style="width: 100%"
+        >
           <el-table-column prop="number" type="index" width="30" align="center">
           </el-table-column>
           <el-table-column prop="title" label="标题" width="460" align="center">
@@ -98,14 +104,14 @@
               <el-button
                 size="mini "
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
+                @click="handleDelete(scope.row)"
               >
                 删除</el-button
               >
               <el-button
                 size="mini "
                 type="success"
-                @click="handlecheck(scope.$index, scope.row)"
+                @click="handlecheck(scope.row)"
               >
                 查看</el-button
               >
@@ -113,15 +119,20 @@
           </el-table-column>
         </el-table>
       </div>
-    </div>
-    <div class="check" v-else-if="num === 2">
-      <el-button type="primary">返回</el-button>
-      <div v-for="(item, index) in list" :key="index">
-        <div>
-          <h3>{{ item.title }}</h3>
-        </div>
+      <div class="fenye">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[5, 10, 20, 40]"
+          :page-size="pagesize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="arr.length"
+        >
+        </el-pagination>
       </div>
     </div>
+
     <div v-else>暂时没有发表的文章</div>
   </div>
 </template>
@@ -133,7 +144,7 @@ export default {
   props: {},
   data() {
     return {
-      num: 1,
+      arr: [],
       list: [],
       title: "",
       abstract: "",
@@ -142,19 +153,32 @@ export default {
       source: "",
       star: "",
       text: "",
-      date: ""
+      date: "",
+      currentPage: 1, //初始页
+      pagesize: 10 //    每页的数据
     };
   },
   methods: {
+    handleSizeChange: function(size) {
+      this.pagesize = size;
+    },
+    handleCurrentChange: function(currentPage) {
+      this.currentPage = currentPage;
+    },
     getlist() {
       this.$axios
         .req("api/article/allArticle")
         .then(res => {
           this.list = res.data;
+          this.arr = res.data;
           this.list.map(item => {
-            item.date = this.$dayjs(item.date).format(
-              "YYYY年MM月DD日 hh时mm分ss秒"
-            );
+            if (item.date.indexOf("年") === -1) {
+              item.date = new Date();
+              item.date = this.$dayjs(item.date).format(
+                "YYYY年MM月DD日 hh时mm分ss秒"
+              );
+            }
+            // console.log(item.date, 5555);
             item.star = Number(item.star);
           });
           console.log(res);
@@ -163,27 +187,19 @@ export default {
           console.log(arr);
         });
     },
+    //编辑
     handleEdit(row) {
-      // console.log(row)
       this.$router.push({ name: "articles", query: { id: row._id } });
     },
+    //查看
     handlecheck(row) {
-      this.num = 2;
-      this.$axios
-        .req("/api/article/article", { _id: row._id })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      this.$router.push({ name: "check", query: { id: row._id } });
     },
     //删除
-    handleDelete(item, row) {
-      console.log(item, row);
+    handleDelete(row) {
       this.$confirm("确认是否删除这一篇文章？", "提示", {
         confirmButtonText: "确定",
-        cancelButtonText: "确定",
+        cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
         this.$axios
@@ -200,12 +216,7 @@ export default {
         this.$message({
           type: "success",
           message: "删除成功"
-        }).catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
+        })
       });
     }
   },
